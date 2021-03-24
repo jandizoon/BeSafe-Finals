@@ -1,0 +1,83 @@
+﻿
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<head>
+
+</head>
+<body>
+
+    <section class="ftco-section">
+        <div class="form-row">
+            <div class="col-md-4">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Registration. <i class="fa fa-user"></i></h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <label class="field field_v3">
+                        <input asp-for="Input.Email" class="field__input" placeholder="e.g. username@gmail.com">
+                        <span class="field__label-wrap">
+                            <span class="field__label">Email <i class="fa fa-envelope"></i></span>
+                        </span>
+                        <span asp-validation-for="Input.Email" class="text-danger" style="font-size:15px"></span>
+                    </label>
+                    <br />
+                    <br />
+                    <label class="field field_v3">
+                        <input asp-for="Input.Password" class="field__input" placeholder="">
+                        <span class="field__label-wrap">
+                            <span class="field__label">Password <i class="fa fa-lock"></i></span>
+                        </span>
+                        <span asp-validation-for="Input.Password" class="text-danger" style="font-size:15px"></span>
+                    </label>
+                    <br />
+                    <br />
+                    <label class="field field_v3">
+                        <input asp-for="Input.ConfirmPassword" class="field__input" placeholder="">
+                        <span class="field__label-wrap">
+                            <span class="field__label">Confirm Password <i class="fa fa-lock"></i></span>
+                        </span>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="font-size:15px"></span>
+                    </label>
+                    <br />
+                    <br />
+                    <button type="submit" class="btn btn-success">Register</button>
+                </form>
+
+
+            </div>
+            <div class="col-md-6">
+                <section>
+                    @{
+                        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                        {
+                            <div class="js-tilt" data-tilt>
+                                <img src="~/images/Besafe.png" width="350" height="300" />
+                            </div>
+                        }
+                        else
+                        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                        {
+                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                        }
+                                    </p>
+                                </div>
+                            </form>
+                        }
+                    }
+                </section>
+            </div>
+        </div>
+        </section>
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
